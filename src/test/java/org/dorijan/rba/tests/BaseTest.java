@@ -3,6 +3,7 @@ package org.dorijan.rba.tests;
 import org.dorijan.rba.utilities.Timeouts;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.openqa.selenium.devtools.DevTools;
@@ -17,7 +18,16 @@ public abstract class BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+
+        // When running in CI (GitHub Actions sets CI=true), use headless
+        if (System.getenv("CI") != null) {
+            options.addArguments("--headless=new");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080");
+        }
+
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Timeouts.MEDIUM);
         devTools = ((ChromeDriver) driver).getDevTools();
