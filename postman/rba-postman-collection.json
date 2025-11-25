@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "e07c7bcd-1f4f-4946-92f0-b4be2d7094d9",
+		"name": "RBA Postman Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50293761",
+		"_collection_link": "https://dorijan-sneler-5918951.postman.co/workspace/Dorijan-%C5%A0neler's-Workspace~41ad7a77-e8fa-4597-8c16-c606ffaaf9a4/collection/50293761-e07c7bcd-1f4f-4946-92f0-b4be2d7094d9?action=share&source=collection_link&creator=50293761"
+	},
+	"item": [
+		{
+			"name": "Exchange Calculator API",
+			"item": [
+				{
+					"name": "Buy GBP",
+					"item": [
+						{
+							"name": "Open Exchange Calculator",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{exchangeCalculatorPath}}",
+									"host": [
+										"{{baseURL}}{{exchangeCalculatorPath}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buy GBP",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is under 5 seconds\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"pm.expect(json.form).to.exist;\r",
+											"\r",
+											"\r",
+											"const exchangeRate = json.form.exchangeRate;\r",
+											"const effectiveRate = json.form.effectiveRate;\r",
+											"const moneyAmount = json.form.currency1Ammount;\r",
+											"const returnedExchangeAmount = json.form.currency2Ammount;\r",
+											"const returnedEffectiveAmount = json.form.currency2AmmountEfe;\r",
+											"\r",
+											"pm.test(\"Exchange rate present\", function () {\r",
+											"    pm.expect(exchangeRate).to.not.be.null;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Calculated result is correct\", function () {\r",
+											"    const expectedExchangeAmount = (moneyAmount * exchangeRate);\r",
+											"    const expectedEffectiveAmount = (moneyAmount * effectiveRate);\r",
+											"\r",
+											"    const expectedExchangeAmountRounded = Number(expectedExchangeAmount.toFixed(8));\r",
+											"    const expectedEffectiveAmountRounded = Number(expectedEffectiveAmount.toFixed(8));\r",
+											"\r",
+											"    pm.expect(Number(returnedExchangeAmount)).to.eql(expectedExchangeAmountRounded);\r",
+											"    pm.expect(Number(returnedEffectiveAmount)).to.eql(expectedEffectiveAmountRounded);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const min = 10;\r",
+											"const max = 1000;\r",
+											"\r",
+											"let value = Math.random() * (max - min) + min;\r",
+											"\r",
+											"value = Number(value.toFixed(2));\r",
+											"\r",
+											"pm.environment.set(\"randomAmount\", value);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "source",
+											"value": "FIRST",
+											"type": "text"
+										},
+										{
+											"key": "currency1Id",
+											"value": "978",
+											"type": "text"
+										},
+										{
+											"key": "currency1Ammount",
+											"value": "{{randomAmount}}",
+											"type": "text"
+										},
+										{
+											"key": "currency2Id",
+											"value": "826",
+											"type": "text"
+										},
+										{
+											"key": "currency2Ammount",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "25.11.2025",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}{{exchangeCalculatorPath}}{{calculateExchangeRate}}",
+									"host": [
+										"{{baseURL}}{{exchangeCalculatorPath}}{{calculateExchangeRate}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sell USD",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Wikipedia Search API",
+			"item": [
+				{
+					"name": "Raiffeisen Wiki Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is under 5 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains 'pages'\", function () {\r",
+									"    pm.expect(json.query).to.have.property(\"pages\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"One result has title 'Raiffeisen Bank International'\", function () {\r",
+									"    const pages = Object.values(json.query.pages);\r",
+									"    const hasTitle = pages.some(p => p.title === \"Raiffeisen Bank International\");\r",
+									"    pm.expect(hasTitle).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{wikiBaseURL}}?action=query&generator=search&gsrsearch=Raiffeisen&gsrlimit=10&prop=info&format=json&utf8=1",
+							"host": [
+								"{{wikiBaseURL}}"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "query"
+								},
+								{
+									"key": "generator",
+									"value": "search"
+								},
+								{
+									"key": "gsrsearch",
+									"value": "Raiffeisen"
+								},
+								{
+									"key": "gsrlimit",
+									"value": "10"
+								},
+								{
+									"key": "prop",
+									"value": "info"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "utf8",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

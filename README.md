@@ -27,6 +27,8 @@ The project is structured using the page object pattern.
 - `src/main/java/org.dorijan.rba/pages` contains pages with locators and custom methods
 - `src/main/java/org.dorijan.rba/utilities` contains helper methods and constants
 - `src/test/java/org.dorijan.rba.tests` contains tests files
+- `postman` contains postman collection and environment for daily postman tests on GHA
+
 ## How it works
 
 I've created two tests:
