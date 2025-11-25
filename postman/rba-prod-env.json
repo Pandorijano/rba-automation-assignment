@@ -4,19 +4,19 @@
 	"values": [
 		{
 			"key": "baseURL",
-			"value": "",
+			"value": "https://www.rba.hr",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "exchangeCalculatorPath",
-			"value": "",
+			"value": "/alati/tecajni-kalkulator",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "calculateExchangeRate",
-			"value": "",
+			"value": "?p_p_id=tecajKalkulator_WAR_calculatorsportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=calculateExchangeRate&p_p_cacheability=cacheLevelPage&p_p_col_id=column-4&p_p_col_count=1",
 			"type": "default",
 			"enabled": true
 		},
@@ -28,7 +28,7 @@
 		},
 		{
 			"key": "wikiBaseURL",
-			"value": "",
+			"value": "https://en.wikipedia.org/w/api.php",
 			"type": "default",
 			"enabled": true
 		}
