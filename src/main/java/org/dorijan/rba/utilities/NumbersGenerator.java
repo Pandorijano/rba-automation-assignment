@@ -11,6 +11,13 @@ public class NumbersGenerator {
     private NumbersGenerator() {
     }
 
+    /**
+     * Generates a random number between the specified minimum and maximum values, the number is rounded to two decimals.
+     *
+     * @param minInclusive the minimum allowed value (inclusive)
+     * @param maxInclusive the maximum allowed value (inclusive)
+     * @return a random {@link BigDecimal} with two decimal places between minInclusive and maxInclusive
+     */
     public static BigDecimal randomAmount(BigDecimal minInclusive, BigDecimal maxInclusive) {
         double min = minInclusive.doubleValue();
         double max = maxInclusive.doubleValue();
@@ -18,10 +25,17 @@ public class NumbersGenerator {
         double raw = ThreadLocalRandom.current().nextDouble(min, max);
         BigDecimal value = BigDecimal.valueOf(raw);
 
-        // 2 decimal places, like money
         return value.setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Generates a list of random number based on the {@link #randomAmount(BigDecimal, BigDecimal)} method.
+     *
+     * @param count        the number of random values to generate
+     * @param minInclusive the minimum allowed value (inclusive)
+     * @param maxInclusive the maximum allowed value (inclusive)
+     * @return a list of {@link BigDecimal} values representing random currency amounts
+     */
     public static List<BigDecimal> randomAmountList(
             int count,
             BigDecimal minInclusive,

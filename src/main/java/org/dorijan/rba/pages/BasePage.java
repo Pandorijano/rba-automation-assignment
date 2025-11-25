@@ -24,7 +24,6 @@ public abstract class BasePage {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
-
     protected WebElement waitForClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }

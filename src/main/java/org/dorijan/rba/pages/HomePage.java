@@ -1,5 +1,6 @@
 package org.dorijan.rba.pages;
 
+import org.dorijan.rba.utilities.Urls;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -42,5 +43,4 @@ public class HomePage extends BasePage {
         scrollToExchangeCalculatorButton();
         clickExchangeCalculatorButton();
     }
-
 }

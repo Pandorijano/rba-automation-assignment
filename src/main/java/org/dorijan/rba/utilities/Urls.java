@@ -1,4 +1,4 @@
-package org.dorijan.rba.pages;
+package org.dorijan.rba.utilities;
 
 public final class Urls {
 

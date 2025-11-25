@@ -8,9 +8,10 @@ import org.dorijan.rba.utilities.Currency;
 import org.dorijan.rba.utilities.Timeouts;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Reporter;
-
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import java.math.BigDecimal;
@@ -19,13 +20,18 @@ import java.util.List;
 
 public class ExtendedExchangeCalculatorTest extends BaseTest {
 
+    @BeforeMethod
+    public void announce(Method method) {
+        Reporter.log("=== EXECUTING TEST: " + method.getName() + " ===\r\n", true);
+    }
+
     private JsonParser rateListener;
     private void info(String message) {
         Reporter.log(message, true);
     }
 
     @Test
-    public void verifyExchangeCalculator() {
+    public void verifyExchangeCalculatorUsingApi() {
         HomePage home = new HomePage(driver);
         ExchangeCalculatorPage calculator = new ExchangeCalculatorPage(driver);
 
@@ -76,8 +82,8 @@ public class ExtendedExchangeCalculatorTest extends BaseTest {
             String previousBodySell = rateListener.getCurrentBody();
 
             calculator.sellCurrency(
+                    Currency.USD,
                     Currency.EUR,
-                    Currency.GBP,
                     moneyValue
             );
 

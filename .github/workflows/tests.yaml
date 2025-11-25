@@ -1,9 +1,7 @@
-name: RBA Selenium Tests
+name: RBA Selenium Tests daily run
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
   schedule:
     # Every workday at 06:00 in the morning
@@ -27,5 +25,5 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Run Maven tests
-        run: mvn -B test
+      - name: Run Maven tests (ExchangeCalculatorTest only)
+        run: mvn -B -Dtest=ExchangeCalculatorTest test

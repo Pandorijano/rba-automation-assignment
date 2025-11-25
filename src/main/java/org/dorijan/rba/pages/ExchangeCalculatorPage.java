@@ -1,5 +1,6 @@
 package org.dorijan.rba.pages;
 
+import org.dorijan.rba.utilities.Urls;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -53,13 +54,16 @@ public class ExchangeCalculatorPage extends BasePage {
         new Select(waitForVisible(currencyToDropdown)).selectByValue(currencyCode);
     }
 
+    /**
+     * Inputs the money amount into the exchange calculator and waits for the exchange to be calculated.
+     *
+     * @param amount numeric value representing money
+     */
     public void inputMoneyAmount(BigDecimal amount) {
         String value = amount.toPlainString(); // exactly what you type
 
-        // type with retry (BasePage.type already handles stale)
         type(moneyAmountInput, value);
 
-        // wait until displayed exchange amount contains the current amount
         wait.until(d -> {
             try {
                 String text = d.findElement(exchangeAmount).getText();
@@ -69,7 +73,6 @@ public class ExchangeCalculatorPage extends BasePage {
             }
         });
 
-        // wait until displayed effective amount also contains the current amount
         wait.until(d -> {
             try {
                 String text = d.findElement(effectiveAmount).getText();
@@ -80,12 +83,26 @@ public class ExchangeCalculatorPage extends BasePage {
         });
     }
 
+    /**
+     * Extracts the money amount from the full string pulled from the site using a locator.
+     *
+     * @param locator locator of the element containing the money amount
+     * @return a scraped string representing a numeric value
+     */
     private String extractExchangeValue(By locator) {
         String fullText = getText(locator);
         String[] textSplit = fullText.split("=");
         String exchangeValueAndCurrency = textSplit[1].trim();
         return exchangeValueAndCurrency.split(" ")[0].replace(",","");
     }
+
+    /**
+     * Extracts exchange results and labels from separate elements and combines them into a single string.
+     *
+     * @param labelTextLocator  locator of the element containing the label text
+     * @param amountTextLocator locator of the element containing the money amount text
+     * @return a single string with exchange result and label combined
+     */
     private String getLabelAndAmountText(By labelTextLocator, By amountTextLocator) {
         String scrapedLabelText = getText(labelTextLocator);
         String scrapedAmountText = getText(amountTextLocator);
@@ -100,7 +117,7 @@ public class ExchangeCalculatorPage extends BasePage {
     }
 
     public String getFullExchangeRateText() {
-       return  getText(exchangeRate);
+        return  getText(exchangeRate);
     }
 
     public String getFullEffectiveAmountText() {
@@ -130,6 +147,13 @@ public class ExchangeCalculatorPage extends BasePage {
         return extractExchangeValue(effectiveRate);
     }
 
+    /**
+     * Selects selling exchange rate type, selects currencies and inputs money amount.
+     *
+     * @param currencyFrom currency that is sold
+     * @param currencyTo   currency that is bought
+     * @param moneyAmount  amount of money sold
+     */
     public void sellCurrency(String currencyFrom, String currencyTo, BigDecimal moneyAmount) {
         this.selectSellRate();
         this.selectFromCurrency(currencyFrom);
@@ -137,6 +161,13 @@ public class ExchangeCalculatorPage extends BasePage {
         this.inputMoneyAmount(moneyAmount);
     }
 
+    /**
+     * Selects buying exchange rate type, selects currencies and inputs money amount.
+     *
+     * @param currencyFrom currency that is used to buy
+     * @param currencyTo   currency that is bought
+     * @param moneyAmount  amount of money used to buy
+     */
     public void buyCurrency(String currencyFrom, String currencyTo, BigDecimal moneyAmount) {
         this.selectBuyRate();
         this.selectFromCurrency(currencyFrom);

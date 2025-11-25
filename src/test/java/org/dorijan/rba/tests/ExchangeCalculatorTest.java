@@ -4,13 +4,20 @@ import org.dorijan.rba.pages.HomePage;
 import org.dorijan.rba.pages.ExchangeCalculatorPage;
 import org.dorijan.rba.utilities.NumbersGenerator;
 import org.dorijan.rba.utilities.Currency;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Reporter;
 import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.List;
+import java.lang.reflect.Method;
 
 public class ExchangeCalculatorTest extends BaseTest {
+
+    @BeforeMethod
+    public void announce(Method method) {
+        Reporter.log("=== EXECUTING TEST: " + method.getName() + " ===\r\n", true);
+    }
 
     private void info(String message) {
         Reporter.log(message, true);
@@ -53,8 +60,8 @@ public class ExchangeCalculatorTest extends BaseTest {
 
             info("Selling USD scenario for " + moneyValue + " EUR." + "\r\n");
             calculator.sellCurrency(
+                    Currency.USD,
                     Currency.EUR,
-                    Currency.GBP,
                     moneyValue
             );
 
