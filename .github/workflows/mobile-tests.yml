@@ -1,0 +1,61 @@
+name: RBA Appium Tests (BrowserStack)
+
+on:
+  schedule:
+    # Every workday at 06:00 in the morning
+    - cron: 0 6 * * 1-5
+  workflow_dispatch:
+
+jobs:
+  android-mobile:
+    runs-on: ubuntu-latest
+
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Run Android mobile test on BrowserStack
+        run: |
+          mvn -B test \
+            -Dtest=ExchangeCalculatorMobileTest \
+            -Dplatform=android \
+            -DdeviceName="Samsung Galaxy S23" \
+            -Dudid="BROWSERSTACK" \
+            -DappiumServerUrl="https://${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}@hub.browserstack.com/wd/hub"
+
+  ios-mobile:
+    runs-on: ubuntu-latest
+
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Run iOS mobile test on BrowserStack
+        run: |
+          mvn -B test \
+            -Dtest=ExchangeCalculatorMobileTest \
+            -Dplatform=ios \
+            -DdeviceName="iPhone 14" \
+            -DplatformVersion="16" \
+            -Dudid="BROWSERSTACK" \
+            -DappiumServerUrl="https://${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}@hub.browserstack.com/wd/hub"

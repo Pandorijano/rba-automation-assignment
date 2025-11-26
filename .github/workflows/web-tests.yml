@@ -25,5 +25,5 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Run Maven tests (ExchangeCalculatorTest only)
-        run: mvn -B -Dtest=ExchangeCalculatorTest test
+      - name: Run Maven tests (ExchangeCalculatorWebTest only)
+        run: mvn -B -Dtest=org.dorijan.rba.tests.web.ExchangeCalculatorWebTest test

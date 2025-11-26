@@ -1,4 +1,4 @@
-package org.dorijan.rba.tests;
+package org.dorijan.rba.tests.web;
 
 import org.dorijan.rba.utilities.Timeouts;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import org.openqa.selenium.devtools.DevTools;
 import org.testng.annotations.BeforeMethod;
 
 
-public abstract class BaseTest {
+public abstract class WebBaseTest {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
