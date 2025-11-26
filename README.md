@@ -61,8 +61,7 @@ For the Appium task I've created one test:
 ### Known issues/obstacles
 - While populating the input field in the exchange calculator for the first time in the iteration, number 0 is present \
     in front of the value the test inputs, it does not affect the result of the exchange
-- The `ExtendedExchangeCalculatorTest` randomly does not manage to fetch JSON form the `calculateExchangeRate` API, \
-  as it is not a part of the original assignment, the GHA workflow config only targets the original test
+- The `ExtendedExchangeCalculatorTest` randomly does not manage to fetch JSON form the `calculateExchangeRate` API
 - Due to constant webpage changes and value comparisons certain methods wait until the page is fully built by catching \
   the `StaleElementReferenceException`
 
